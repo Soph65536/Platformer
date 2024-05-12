@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
 
     //declare variables!!!
 
+    //game menu object
+    [SerializeField] private GameObject GameButtons;
+
     //movement
     public float moveforce;
     public float jumpforce;
@@ -33,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
 
 
-    void Start()
+    void Awake()
     {
         //define animator
         animator=GetComponent<Animator>();
@@ -50,9 +53,18 @@ public class PlayerMovement : MonoBehaviour
         animationairborne = 0f;
     }
 
+
     // Update is called once per frame
     void Update()
     {
+        //open menu
+        if(Input.GetKeyDown(KeyCode.Escape) && !GameManager.Instance.GameMenuOpen)
+        {
+            //set game menu to open and create game menu
+            GameManager.Instance.GameMenuOpen = true;
+            Instantiate(GameButtons, Vector3.zero, Quaternion.identity);
+        }
+
         //movement
         if (Input.GetKey(KeyCode.Space) && grounded && (rb.velocity.y > -00.1 && rb.velocity.y < 0.01))
         {
@@ -92,6 +104,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    //kill player subroutine
+    public void KillPlayer()
+    {
+        transform.position = GameManager.Instance.SpawnPosition;
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //if collided with ground or checkpoint and not falling then grounded is true
@@ -106,8 +125,7 @@ public class PlayerMovement : MonoBehaviour
         //if collided with enemy go to startingpos
         if(collision.gameObject.tag == "Enemy")
         {
-            transform.position = GameManager.Instance.SpawnPosition;
-            Debug.Log("Enemy");
+            KillPlayer();
         }
     }
 

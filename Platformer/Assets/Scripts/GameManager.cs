@@ -9,7 +9,12 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
 
     //variables
+
+    //player
     public Vector3 SpawnPosition;
+
+    //UI
+    public bool GameMenuOpen;
 
     void Awake()
     {
@@ -26,5 +31,13 @@ public class GameManager : MonoBehaviour
 
         //setting initial values for variables
         SpawnPosition = new Vector3(0, -2, 0);
+
+        GameMenuOpen = false;
+    }
+
+    private void Update()
+    {
+        if (GameMenuOpen) { Time.timeScale = 0; } 
+        if (!GameMenuOpen) { Time.timeScale = 1; }
     }
 }
