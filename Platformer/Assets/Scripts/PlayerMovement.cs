@@ -65,13 +65,17 @@ public class PlayerMovement : MonoBehaviour
             Instantiate(GameButtons, Vector3.zero, Quaternion.identity);
         }
 
+
         //movement
-        if (Input.GetKey(KeyCode.Space) && grounded && (rb.velocity.y > -00.1 && rb.velocity.y < 0.01))
+        if (Input.GetKey(KeyCode.Space) 
+            && grounded 
+            && (rb.velocity.y > -00.1 && rb.velocity.y < 0.01))
         {
             //jump
-            rb.velocity=new Vector3(0, jumpforce, 0);
+            rb.velocity = new Vector3(0, jumpforce, 0);
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             //moveleft
             transform.position += Vector3.left * moveforce * Time.deltaTime;
@@ -80,7 +84,8 @@ public class PlayerMovement : MonoBehaviour
             animationhorizontal=0;
             animationmoving=1;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             //moveright
             transform.position += Vector3.right * moveforce * Time.deltaTime;
@@ -90,12 +95,15 @@ public class PlayerMovement : MonoBehaviour
             animationmoving=1;
         }
 
+
         //check if stop moving
-        if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+        if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A) 
+            || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
         {
             //moving is false if no keys pressed
             animationmoving=0;
         }
+
 
         //update animator
         animator.SetFloat("horizontal", animationhorizontal);
