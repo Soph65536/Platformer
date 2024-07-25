@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
 
     //variables
 
+    //cutscenes
+    public bool inCutscene;
+
     //player
     public Vector3 SpawnPosition;
 
@@ -29,7 +32,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        //setting initial values for variables
+        inCutscene = false;
+
         SpawnPosition = new Vector3(0, -2, 0);
 
         GameMenuOpen = false;

@@ -1579,6 +1579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e156186b2aecd478dedcbeadeeaa43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CutscenesViewed: 0000
+  inCutscene: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   GameMenuOpen: 0
 --- !u!4 &1530164586
@@ -4156,3 +4158,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f10f270156b5e4997c60919a3445f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1999322299
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806754325979867925, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234114413852404129, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: CutsceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayerAwaken
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547823341821693159, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}
+      propertyPath: m_Name
+      value: CutsceneTrigger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9a24c3a696487c45b9dfe9be6c73f21, type: 3}

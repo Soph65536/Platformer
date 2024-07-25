@@ -6,6 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     //declare constants!!!
 
+    //animation delays
+    const float deathdelay = 0.2f;
+    const float respawndelay = 0.2f;
+
     //movement speeds
     const float airmovespeed = 5f;
     const float watermovespeed = 3f;
@@ -20,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
 
     //game menu object
     [SerializeField] private GameObject GameButtons;
+
+    //player death delay bool to prevent instant respawn and only play death one
+    private bool isDead;
 
     //movement
     public float moveforce;
@@ -44,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
         rb = transform.GetComponent<Rigidbody2D>();
 
         //setting initial variables
+        isDead = false;
+
         moveforce = airmovespeed;
         jumpforce = airjumpspeed;
         grounded = false;
@@ -58,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //open menu
-        if(Input.GetKeyDown(KeyCode.Escape) && !GameManager.Instance.GameMenuOpen)
+        if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.Instance.GameMenuOpen)
         {
             //set game menu to open and create game menu
             GameManager.Instance.GameMenuOpen = true;
@@ -66,56 +75,69 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        //movement
-        if (Input.GetKey(KeyCode.Space) 
-            && grounded 
-            && (rb.velocity.y > -00.1 && rb.velocity.y < 0.01))
+        //only allow player to be controlled when not in a cutscene or dead
+        if (!isDead && !GameManager.Instance.inCutscene)
         {
-            //jump
-            rb.velocity = new Vector3(0, jumpforce, 0);
+            //movement
+            if (Input.GetKey(KeyCode.Space) && grounded)
+            {
+                //jump
+                rb.velocity = new Vector3(0, jumpforce, 0);
+            }
+
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                //moveleft
+                transform.position += Vector3.left * moveforce * Time.deltaTime;
+
+                //animateleft
+                animationhorizontal = 0;
+                animationmoving = 1;
+            }
+
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                //moveright
+                transform.position += Vector3.right * moveforce * Time.deltaTime;
+
+                //animateright
+                animationhorizontal = 1;
+                animationmoving = 1;
+            }
+
+
+            //check if stop moving
+            if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A)
+                || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
+            {
+                //moving is false if no keys pressed
+                animationmoving = 0;
+            }
+
+
+            //update animator
+            animator.SetFloat("horizontal", animationhorizontal);
+            animator.SetFloat("moving", animationmoving);
+            animator.SetFloat("airborne", animationairborne);
         }
-
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            //moveleft
-            transform.position += Vector3.left * moveforce * Time.deltaTime;
-            
-            //animateleft
-            animationhorizontal=0;
-            animationmoving=1;
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            //moveright
-            transform.position += Vector3.right * moveforce * Time.deltaTime;
-
-            //animateright
-            animationhorizontal=1;
-            animationmoving=1;
-        }
-
-
-        //check if stop moving
-        if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A) 
-            || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
-        {
-            //moving is false if no keys pressed
-            animationmoving=0;
-        }
-
-
-        //update animator
-        animator.SetFloat("horizontal", animationhorizontal);
-        animator.SetFloat("moving", animationmoving);
-        animator.SetFloat("airborne", animationairborne);
     }
 
 
-    //kill player subroutine
-    public void KillPlayer()
+    //kill player coroutine
+    public IEnumerator KillPlayer()
     {
+        isDead = true;
+
+        //play death animation and wait for player death delay
+        animator.SetTrigger("PlayerDeath");
+        yield return new WaitForSeconds(deathdelay);
+
+        //respawn player and wait for respawn animation
         transform.position = GameManager.Instance.SpawnPosition;
+        animator.SetTrigger("AwakenCutscene");
+        yield return new WaitForSeconds(respawndelay);
+
+        isDead = false;
     }
 
 
@@ -123,17 +145,17 @@ public class PlayerMovement : MonoBehaviour
     {
         //if collided with ground or checkpoint and not falling then grounded is true
         //else is false
-        if(collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Checkpoint")
+        if((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Checkpoint") 
+            && (rb.velocity.y > -00.1 && rb.velocity.y < 0.01))
         {
             grounded=true;
             animationairborne=0;
-            Debug.Log("Grounded");
         }
            
         //if collided with enemy go to startingpos
-        if(collision.gameObject.tag == "Enemy")
+        if(collision.gameObject.tag == "Enemy" && !isDead)
         {
-            KillPlayer();
+            StartCoroutine("KillPlayer");
         }
     }
 
@@ -142,7 +164,6 @@ public class PlayerMovement : MonoBehaviour
         //reset grounded since not colliding with anything
         grounded=false;
         animationairborne=1;
-        Debug.Log("Not Grounded");
     }
 
 
@@ -153,7 +174,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.drag = waterdrag;
             moveforce = watermovespeed;
-            Debug.Log("Water");
         }
     }
 

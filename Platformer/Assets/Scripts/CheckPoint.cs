@@ -8,7 +8,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<PlayerMovement>() != null)
         {
-            GameManager.Instance.SpawnPosition = collision.gameObject.transform.position;
+            if(!collision.gameObject.GetComponent<PlayerMovement>().grounded) { GameManager.Instance.SpawnPosition = collision.gameObject.transform.position; }
         }
     }
 }
