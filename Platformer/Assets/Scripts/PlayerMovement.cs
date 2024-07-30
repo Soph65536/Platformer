@@ -7,8 +7,8 @@ public class PlayerMovement : MonoBehaviour
     //declare constants!!!
 
     //animation delays
-    const float deathdelay = 0.2f;
-    const float respawndelay = 0.2f;
+    const float deathdelay = 1f;
+    const float respawndelay = 1.75f;
 
     //movement speeds
     const float airmovespeed = 5f;
@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
         //respawn player and wait for respawn animation
         transform.position = GameManager.Instance.SpawnPosition;
-        animator.SetTrigger("AwakenCutscene");
+        animator.SetTrigger("PlayerRespawn");
         yield return new WaitForSeconds(respawndelay);
 
         isDead = false;

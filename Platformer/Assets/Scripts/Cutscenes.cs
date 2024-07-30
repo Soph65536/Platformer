@@ -52,6 +52,6 @@ public class Cutscenes : MonoBehaviour
 
         PlayerAnimator.SetTrigger("AwakenCutscene");
 
-        StartCoroutine("EndOfCutscene", 1f);
+        StartCoroutine("EndOfCutscene", 2.5f);
     }
 }
