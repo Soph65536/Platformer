@@ -86,7 +86,7 @@ public class GameButtons : MonoBehaviour
     void RestartFromCheckpoint()
     {
         //find player object and kill it
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().KillPlayer();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().StartCoroutine("KillPlayer");
         //continue game
         Continue();
     }

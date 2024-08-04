@@ -151,12 +151,6 @@ public class PlayerMovement : MonoBehaviour
             grounded=true;
             animationairborne=0;
         }
-           
-        //if collided with enemy go to startingpos
-        if(collision.gameObject.tag == "Enemy" && !isDead)
-        {
-            StartCoroutine("KillPlayer");
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -169,8 +163,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        //if collided with enemy go to startingpos
+        if (collider.gameObject.tag == "Enemy" && !isDead)
+        {
+            StartCoroutine("KillPlayer");
+        }
+
         //if collided with water then slow movement
-        if(collider.gameObject.layer == 4)
+        if (collider.gameObject.layer == 4)
         {
             rb.drag = waterdrag;
             moveforce = watermovespeed;
